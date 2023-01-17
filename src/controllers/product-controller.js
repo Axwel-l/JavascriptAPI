@@ -3,13 +3,12 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model("Product");
 const ValidationContract =  require("../validators/fluent-validator")
+const repository = require('../repositores/product-repository')
 
 exports.get = (req,res,next) =>{
 //active:true(só os produtos ativos)
 //find({},'title price slug')(só aparece o que é pedido)
-    Product.find({
-        active :true
-    },'title price slug').then(data => {
+    repository.get().then(data => {
         res.status(200).send(data);
     }).catch(e => {
         res.status(400).send(e);
@@ -17,12 +16,9 @@ exports.get = (req,res,next) =>{
 }
 
 exports.getBySlug = (req,res,next) =>{
-    Product
-    //findOne/ja que o slug é unico assim não forma array
-        .findOne({
-            slug : req.params.slug,
-            active :true
-        },'title descrition price slug tags').then(data => {
+   repository
+        .getBySlug(req.params.slug)
+        .then(data => {
             res.status(200).send(data);
         }).catch(e => {
             res.status(400).send(e);
@@ -31,8 +27,7 @@ exports.getBySlug = (req,res,next) =>{
 
 //Usado mais em empresas(por motivos obvios)
 exports.getById = (req,res,next) =>{
-    Product
-        .findById( req.params.id)
+    repository.getById(req.params.id)
         .then(data => {
                 res.status(200).send(data);
         }).catch(e => {
@@ -41,9 +36,8 @@ exports.getById = (req,res,next) =>{
 } 
 
 exports.getByTag = (req,res,next) =>{
-    Product
-        .find({ tags: req.params.tag, active:true})
-        .then(data => {
+    repository.getByTag(req.params.tag)
+    .then(data => {
                 res.status(200).send(data);
         }).catch(e => {
                 res.status(400).send(e);
@@ -67,9 +61,8 @@ exports.post = (req,res,next)=>{
 */}
     //var product = new Product(req.body);
     //instancia direta/mais simples só que mais perigosa(não especifica parametros)
-    var product = new Product(req.body);
-    // product.title=req.body.title;
-    product.save().then(x => {
+    repository.create(req.body)
+    .then(x => {
         res.status(201).send({message: 'Produto cadastrado com sucesso'})
 
     }).catch(e => {
@@ -81,16 +74,7 @@ exports.post = (req,res,next)=>{
 }
 
 exports.put = (req,res,next) =>{
-    Product.findByIdAndUpdate(req.params.id,{
-        $set: {
-            //só precisa digita o que quer alterar
-            title :req.body.title,
-            description: req.body.description,
-            price: req.body.price,
-            slug: req.body.slug,
-            tags:req.body.tags
-        }
-    }).then(x => {
+    repository.update(req.params.id,req.body).then(x => {
         res.status(200).send({
             message : 'Produto atualizado com sucesso!'
         });
@@ -102,9 +86,8 @@ exports.put = (req,res,next) =>{
     })
 }
 
-
 exports.delete = (req,res,next) =>{
-    Product.findOneAndRemove(req.body.id)//(req.params.id)
+    repository.delete(req.param.id)//(req.params.id)
     .then(x => {
         res.status(200).send({
             message : 'Produto removido com sucesso!'
