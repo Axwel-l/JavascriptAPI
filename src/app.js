@@ -1,5 +1,5 @@
 'use strict';
-
+// 2023
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -20,7 +20,7 @@ const indexRoute = require('./routes/index-route')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}))
 
-//versão inicia da rotas
+{//versão inicial da rotas
 /*const route = router.get('/',(req, res, next) =>{
     res.status(200).send({
         title:"Node Store API",
@@ -43,7 +43,8 @@ const put = router.put('/:id',(req,res,next)=>{
 
 const del = router.delete('/',(req,res,next)=>{
     res.status(200).send(req.body);
-})*/
+})*/}
+
 app.use('/',indexRoute);
 //app.use('/products',productsRoute);
 
