@@ -15,11 +15,12 @@ const Product = require('./models/products');
 
 //Carrega as rotas
 const indexRoute = require('./routes/index-route')
-const productsRoute =require('./routes/product-route')
+//const productsRoute =require('./routes/product-route')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}))
 
+//versão inicia da rotas
 /*const route = router.get('/',(req, res, next) =>{
     res.status(200).send({
         title:"Node Store API",
@@ -44,7 +45,7 @@ const del = router.delete('/',(req,res,next)=>{
     res.status(200).send(req.body);
 })*/
 app.use('/',indexRoute);
-app.use('/products',productsRoute);
+//app.use('/products',productsRoute);
 
 //exportar o app/express
 module.exports=app;

@@ -36,10 +36,13 @@ const schema = new Schema({
 });
 /*
 {
-    "title":"titulo",
-    "description":"xpto",
+    "title":"Monitor",
+    "price":"500",
+    "description":"60 quadros",
+    "slug":"30 polegadas",
+    "active":true,
     "tags":[
-        "teste","123","pessoas"
+        "Jogos","Informatica","monitor"
     ]
 }
 */
