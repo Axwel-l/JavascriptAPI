@@ -5,6 +5,7 @@
     não precisa, mas é sempre bom ter um metodo de 
     verificação
     metodo de uso em product-contoller(post)
+
 */
 
 'use strict';
@@ -22,13 +23,13 @@ ValidationContract.prototype.isRequired = (value, message) =>{
 }
 
 ValidationContract.prototype.hasMinLen = (value,min, message) =>{
-    if(!value || value.lenght < min){
+    if(!value || value.lenght >= min){
         errors.push({message:message});
     }
 }
 
 ValidationContract.prototype.hasMaxLen = (value,max, message) =>{
-    if(!value || value.lenght > max){
+    if(!value || value.lenght <= max){
         errors.push({message:message});
     }
 }

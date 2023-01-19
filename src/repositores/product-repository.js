@@ -1,45 +1,54 @@
+/*!!! Aviso para o eu do Futuro
+Se quiser saber a versão anterior de algum metodo
+antes de ser melhorado olha no git.*/
+//E pesquisar mais caracteristicas do "async" e "await"
+
 'use strict';
 
 const mongoose = require('mongoose');
 const Product = mongoose.model("Product");
 
-exports.get = () =>{
-    return Product.find({
+exports.get = async() =>{
+    const res = await  Product.find({
         active :true
     },'title price slug');
+    return res;
 }
 
-exports.getBySlug = (slug)=>{
-    return Product
+exports.getBySlug = async(slug)=>{
+    const res = await Product
     //findOne/ja que o slug é unico assim não forma array
         .findOne({
             slug : slug,
             active :true
         },'title descrition price slug tags');
+    return res;
 }
 
-exports.getById = (id) =>{
-    return Product
+exports.getById = async(id) =>{
+    const res = await Product
         .findById( id);
+    return res;
 }
 
-exports.getByTag = (tag)=>{
-    return Product
+exports.getByTag = async(tag)=>{
+    const res = await Product
     //findOne/ja que o slug é unico assim não forma array
         .find({
             tags : tag,
             active :true
         },'title descrition price slug tags');
+    return res;
 }
 
-exports.create = (data) => {
-    var product = new Product(data);
+exports.create = async(data) => {
+    var Product = new Product(data);
     // product.title=req.body.title;
-    return product.save();
+    await Product.save();
 }
 
-exports.update = (id,data) =>{
-    return Product
+exports.update = async(id,data) =>{
+    await Product
     .findByIdAndUpdate(id,{
         $set: {
             //só precisa digita o que quer alterar
@@ -52,6 +61,6 @@ exports.update = (id,data) =>{
     })
 }
 
-exports.delete = (id) =>{
-    return Product.findOneAndRemove(id);
+exports.delete = async(id) =>{
+    await Product.findOneAndRemove(id);
 }
